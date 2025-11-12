@@ -24,7 +24,7 @@ os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
 
 
 
-# ---------------------------
+
 
 @app.route('/')
 def home():
@@ -154,6 +154,7 @@ def logout():
 # ✅ RUN APP
 if __name__ == '__main__':
     app.run(debug=True)
+
 
 
 
