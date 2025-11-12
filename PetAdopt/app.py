@@ -23,7 +23,7 @@ app.config['UPLOAD_FOLDER'] = 'static/images'
 os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
 
 
-# ROUTES
+
 # ---------------------------
 
 @app.route('/')
@@ -154,6 +154,7 @@ def logout():
 # ✅ RUN APP
 if __name__ == '__main__':
     app.run(debug=True)
+
 
 
 
