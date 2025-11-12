@@ -18,7 +18,7 @@ mysql = MySQL(app)
 
 
 
-# ---------------------------
+
 app.config['UPLOAD_FOLDER'] = 'static/images'
 os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
 
@@ -154,6 +154,7 @@ def logout():
 # ✅ RUN APP
 if __name__ == '__main__':
     app.run(debug=True)
+
 
 
 
