@@ -8,7 +8,7 @@ app = Flask(__name__)
 app.secret_key = "your_secret_key_here"
 
 
-# MySQL CONFIGURATION
+
 # ---------------------------
 app.config['MYSQL_HOST'] = 'localhost'
 app.config['MYSQL_USER'] = 'root'  # default user in XAMPP
@@ -154,5 +154,6 @@ def logout():
 # ✅ RUN APP
 if __name__ == '__main__':
     app.run(debug=True)
+
 
 
