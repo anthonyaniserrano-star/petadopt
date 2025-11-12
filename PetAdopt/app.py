@@ -9,7 +9,7 @@ app.secret_key = "your_secret_key_here"
 
 
 
-# ---------------------------
+
 app.config['MYSQL_HOST'] = 'localhost'
 app.config['MYSQL_USER'] = 'root'  # default user in XAMPP
 app.config['MYSQL_PASSWORD'] = ''  # leave blank unless you set one
@@ -154,6 +154,7 @@ def logout():
 # ✅ RUN APP
 if __name__ == '__main__':
     app.run(debug=True)
+
 
 
 
