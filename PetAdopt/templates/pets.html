@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Adoptable Pets | PetAdopt</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <style>
+    * {
+      margin: 0; 
+      padding: 0; 
+      box-sizing: border-box; 
+      font-family: 'Poppins', sans-serif;
+    }
+    body {
+      background: linear-gradient(135deg, #ffb6a0, #ffc3a0, #a0ffe3);
+      min-height: 100vh; 
+      display: flex; 
+      flex-direction: column;
+    }
+    header {
+      width: 100%; 
+      display: flex; 
+      justify-content: space-between; 
+      align-items: center; 
+      padding: 1.2rem 3rem;
+      background: rgba(255, 255, 255, 0.95);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      position: fixed; 
+      top: 0; 
+      left: 0; 
+      z-index: 100;
+    }
+    .logo {
+      font-size: 1.6rem; 
+      font-weight: 700; 
+      color: #ff7b54; 
+      display: flex; 
+      align-items: center; 
+      gap: 0.4rem;
+    }
+    .nav-links {
+      list-style: none; 
+      display: flex; 
+      gap: 1rem;
+    }
+    .nav-links a {
+      text-decoration: none; 
+      color: #333; 
+      font-weight: 500; 
+      padding: 0.5rem 1rem; 
+      border-radius: 10px; 
+      transition: 0.3s;
+    }
+    .profile-btn {
+      border: 1.5px solid #ff7b54; 
+      color: #ff7b54;
+    }
+    .profile-btn:hover {
+      background: #ff7b54; 
+      color: white;
+    }
+    .logout-btn {
+      background: linear-gradient(90deg, #ff7b54, #ffb26b); 
+      color: white;
+    }
+    .pets-section {
+      padding: 8rem 3rem 4rem; 
+      text-align: center; 
+      color: #333;
+    }
+    h1 {
+      font-size: 2.2rem; 
+      margin-bottom: 1.5rem;
+    }
+    .search-filter-container {
+      display: flex; 
+      justify-content: center; 
+      gap: 1rem; 
+      margin-bottom: 2rem; 
+      flex-wrap: wrap;
+    }
+    .search-filter-container input, .search-filter-container select {
+      padding: 0.8rem 1rem; 
+      border-radius: 10px; 
+      border: 1.5px solid #ddd; 
+      font-size: 1rem; 
+      width: 250px; 
+      transition: 0.3s;
+    }
+    .search-filter-container input:focus, .search-filter-container select:focus {
+      border-color: #ff7b54; 
+      box-shadow: 0 0 5px #ffb6a0; 
+      outline: none;
+    }
+    .search-btn {
+      background: linear-gradient(90deg, #ff7b54, #ffb26b); 
+      border: none; 
+      color: white; 
+      font-weight: 600; 
+      padding: 0.8rem 1.5rem; 
+      border-radius: 10px; 
+      cursor: pointer; 
+      transition: 0.2s;
+    }
+    .search-btn:hover {
+      transform: translateY(-2px); 
+      box-shadow: 0 6px 15px rgba(0,0,0,0.15);
+    }
+    .pets-container {
+      display: grid; 
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); 
+      gap: 2rem; 
+      justify-items: center;
+    }
+    .pet-card {
+      background: white; 
+      border-radius: 20px; 
+      box-shadow: 0 6px 15px rgba(0,0,0,0.1); 
+      overflow: hidden; 
+      max-width: 300px; 
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      padding-bottom: 1rem;
+    }
+    .pet-card:hover {
+      transform: translateY(-5px); 
+      box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+    }
+    .pet-card img {
+      width: 100%; 
+      height: 220px; 
+      object-fit: cover; 
+      border-bottom: 2px solid #ffb26b;
+    }
+    .pet-card h2 {
+      margin: 1rem 0 0.5rem; 
+      font-size: 1.4rem; 
+      color: #333;
+    }
+    .pet-card p {
+      margin: 0.3rem 0; 
+      font-size: 0.95rem; 
+      color: #666;
+    }
+    .adopt-btn, .favorite-btn {
+      margin: 1rem 0.3rem 1.5rem; 
+      background: linear-gradient(90deg, #ff7b54, #ffb26b); 
+      border: none; 
+      color: white; 
+      font-weight: 600; 
+      padding: 0.7rem 1rem; 
+      border-radius: 10px; 
+      cursor: pointer; 
+      transition: 0.2s;
+    }
+    .favorite-btn {
+      background: #ffd5cc; 
+      color: #ff7b54; 
+      border: 1.5px solid #ff7b54;
+    }
+    .favorite-btn:hover, .adopt-btn:hover {
+      transform: translateY(-2px); 
+      box-shadow: 0 6px 15px rgba(0,0,0,0.15);
+    }
+    footer {
+      text-align: center; 
+      padding: 1.5rem; 
+      margin-top: auto; 
+      background: rgba(255, 255, 255, 0.9); 
+      font-size: 0.9rem; 
+      color: #555; 
+      box-shadow: 0 -3px 10px rgba(0,0,0,0.05);
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo"><i class="fa fa-paw"></i> PetAdopt</div>
+    <ul class="nav-links">
+      <li><a href="{{ url_for('profile') }}" class="profile-btn">Profile</a></li>
+      <li><a href="{{ url_for('logout') }}" class="logout-btn">Logout</a></li>
+    </ul>
+  </header>
+
+  <section class="pets-section">
+    <h1>Find Your Perfect Companion 🐾</h1>
+    <form method="GET" action="{{ url_for('pets_page') }}" class="search-filter-container">
+      <input type="text" name="search" placeholder="Search by pet name..." value="{{ search_query }}">
+      <select name="type">
+        <option value="all" {% if pet_type_filter == 'all' %}selected{% endif %}>All Animals</option>
+        <option value="Dog" {% if pet_type_filter == 'Dog' %}selected{% endif %}>Dogs</option>
+        <option value="Cat" {% if pet_type_filter == 'Cat' %}selected{% endif %}>Cats</option>
+        <option value="Rabbit" {% if pet_type_filter == 'Rabbit' %}selected{% endif %}>Rabbits</option>
+      </select>
+      <button type="submit" class="search-btn"><i class="fa fa-search"></i> Search</button>
+    </form>
+
+    <div class="pets-container">
+      {% for pet in pets %}
+        <div class="pet-card">
+          <img src="{{ url_for('static', filename='images/' + pet.name|lower + 'petname_1.png') }}" alt="{{ pet.name }}">
+          <img src="{{ url_for('static', filename='images/' + pet.name|lower + '_2.png') }}" alt="{{ pet.name }}">
+          <img src="{{ url_for('static', filename='images/' + pet.name|lower + '_3.png') }}" alt="{{ pet.name }}">
+
+          <h2>{{ pet.name }}</h2>
+          <p>Type: {{ pet.type }}</p>
+          <p>Breed: {{ pet.breed }}</p>
+          <p>Age: {{ pet.age }}</p>
+          <p>Location: {{ pet.location }}</p>
+          <p>Status: {{ pet.status }}</p>
+          <a href="{{ url_for('pet_detail', pet_id=pet['id']) }}">
+            <button class="adopt-btn">View / Adopt</button>
+          </a>
+        </div>
+      {% endfor %}
+    </div>
+  </section>
+
+  <footer>
+    <p>&copy; 2025 PetAdopt. All Rights Reserved.</p>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,267 @@
+/* ---------- ROOT COLORS ---------- */
+:root {
+  --primary: #2b7a78;
+  --secondary: #3aafa9;
+  --accent: #def2f1;
+  --dark: #17252a;
+  --light-bg: #f6f8f9;
+  --text: #17252a;
+  --shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  --transition: all 0.3s ease;
+}
+
+/* ---------- GLOBAL STYLES ---------- */
+* {
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+
+body {
+  margin: 0;
+  background: var(--light-bg);
+  color: var(--text);
+  scroll-behavior: smooth;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+  transition: var(--transition);
+}
+
+/* ---------- NAVBAR ---------- */
+header {
+  background: linear-gradient(90deg, var(--secondary), var(--primary));
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 50px;
+  box-shadow: var(--shadow);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+header .logo {
+  font-size: 26px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+header .logo i {
+  font-size: 24px;
+  color: var(--accent);
+}
+
+header nav a {
+  color: white;
+  margin: 0 12px;
+  font-weight: 500;
+  position: relative;
+}
+
+header nav a::after {
+  content: "";
+  display: block;
+  height: 2px;
+  width: 0;
+  background: var(--accent);
+  transition: width 0.3s;
+  margin-top: 3px;
+}
+
+header nav a:hover::after {
+  width: 100%;
+}
+
+/* ---------- HERO SECTION ---------- */
+.hero {
+  background: linear-gradient(rgba(43, 122, 120, 0.7), rgba(43, 122, 120, 0.7)),
+    url('../static/75fccbf3.jpg') no-repeat center/cover;
+  color: white;
+  text-align: center;
+  padding: 160px 20px;
+  animation: fadeIn 1.2s ease-in-out;
+}
+
+.hero h1 {
+  font-size: 52px;
+  margin-bottom: 15px;
+  text-shadow: 0 4px 10px rgba(0,0,0,0.3);
+}
+
+.hero p {
+  font-size: 18px;
+  max-width: 600px;
+  margin: 0 auto 30px;
+  line-height: 1.6;
+  color: #e8fdfd;
+}
+
+.hero .buttons a {
+  display: inline-block;
+  background: var(--accent);
+  color: var(--primary);
+  padding: 12px 25px;
+  border-radius: 25px;
+  font-weight: 600;
+  margin: 8px;
+  box-shadow: var(--shadow);
+}
+
+.hero .buttons a:hover {
+  background: var(--secondary);
+  color: white;
+  transform: translateY(-3px);
+}
+
+/* ---------- PET CARDS ---------- */
+.pets {
+  max-width: 1100px;
+  margin: 60px auto;
+  text-align: center;
+  padding: 0 20px;
+}
+
+.pets h1 {
+  color: var(--primary);
+  font-size: 36px;
+  margin-bottom: 25px;
+}
+
+.pet-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 25px;
+  margin-top: 30px;
+}
+
+.pet-card {
+  background: white;
+  border-radius: 12px;
+  box-shadow: var(--shadow);
+  overflow: hidden;
+  transition: var(--transition);
+  position: relative;
+}
+
+.pet-card:hover {
+  transform: translateY(-8px);
+}
+
+.pet-card img {
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+}
+
+.pet-card h3 {
+  color: var(--primary);
+  margin: 10px 0 5px;
+}
+
+.pet-card p {
+  margin-bottom: 10px;
+  font-size: 15px;
+  color: #555;
+}
+
+.adopt-btn {
+  display: inline-block;
+  background: var(--secondary);
+  color: white;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 8px;
+  margin-bottom: 15px;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.adopt-btn:hover {
+  background: var(--primary);
+  transform: scale(1.05);
+}
+
+/* ---------- FORMS (Login/Register) ---------- */
+.form-container {
+  max-width: 380px;
+  margin: 80px auto;
+  background: white;
+  padding: 40px;
+  border-radius: 15px;
+  box-shadow: var(--shadow);
+  text-align: center;
+}
+
+.form-container h2 {
+  color: var(--primary);
+  margin-bottom: 20px;
+}
+
+.form-container input {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  border: 1.5px solid #ccc;
+  border-radius: 6px;
+  outline: none;
+  font-size: 15px;
+  transition: var(--transition);
+}
+
+.form-container input:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 5px var(--accent);
+}
+
+.form-container button {
+  background: var(--primary);
+  color: white;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: var(--transition);
+}
+
+.form-container button:hover {
+  background: var(--secondary);
+}
+
+.form-container a {
+  color: var(--primary);
+  font-weight: 500;
+}
+
+/* ---------- FOOTER ---------- */
+footer {
+  background: var(--dark);
+  color: white;
+  text-align: center;
+  padding: 20px;
+  font-size: 14px;
+  margin-top: 60px;
+  box-shadow: inset 0 2px 10px rgba(0,0,0,0.2);
+}
+
+/* ---------- ANIMATIONS ---------- */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ---------- RESPONSIVE ---------- */
+@media (max-width: 900px) {
+  header {
+    flex-direction: column;
+    padding: 12px 20px;
+  }
+  .hero h1 { font-size: 40px; }
+  .hero p { font-size: 16px; }
+  .form-container { margin: 60px 20px; }
+}

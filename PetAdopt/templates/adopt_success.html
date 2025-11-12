@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Adoption Success | PetAdopt</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <style>
+    body { font-family: 'Poppins', sans-serif; background: #ffeedb; text-align: center; padding-top: 10rem; }
+    h1 { color: #ff7b54; }
+    a { color: #ff7b54; text-decoration: none; font-weight: bold; }
+  </style>
+</head>
+<body>
+  <h1>🎉 Thank You!</h1>
+  <p>Your adoption request for <strong>{{ pet_name }}</strong> has been submitted.</p>
+  <p>We'll contact you soon via email.</p>
+  <br>
+  <a href="{{ url_for('pets_page') }}">← Back to Pets</a>
+</body>
+</html>

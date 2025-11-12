@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ pet.name }} | PetAdopt</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #ffb6a0, #ffc3a0, #a0ffe3);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .flash-messages {
+      background: #a0ffe3;
+      border: 2px solid #76d7c4;
+      padding: 10px;
+      border-radius: 10px;
+      margin: 15px auto;
+      width: 90%;
+      max-width: 600px;
+      text-align: center;
+      color: #333;
+      font-weight: 500;
+    }
+
+    .pet-detail {
+      background: white;
+      margin-top: 2rem;
+      border-radius: 20px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+      padding: 2rem;
+      max-width: 700px;
+      width: 90%;
+      text-align: center;
+    }
+
+    .pet-detail img {
+      width: 100%;
+      max-height: 400px;
+      border-radius: 15px;
+      object-fit: cover;
+      margin-bottom: 1rem;
+    }
+
+    h2 { color: #333; font-size: 2rem; margin-bottom: 0.5rem; }
+    p { color: #555; font-size: 1rem; margin: 0.3rem 0; }
+
+    form {
+      margin-top: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    input, textarea {
+      padding: 0.8rem;
+      border: 1.5px solid #ddd;
+      border-radius: 10px;
+      font-size: 1rem;
+    }
+
+    input:focus, textarea:focus {
+      outline: none;
+      border-color: #ff7b54;
+      box-shadow: 0 0 5px #ffb6a0;
+    }
+
+    button {
+      background: linear-gradient(90deg, #ff7b54, #ffb26b);
+      color: white;
+      border: none;
+      border-radius: 10px;
+      padding: 0.8rem;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: 0.3s;
+      font-weight: 600;
+    }
+
+    button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 15px rgba(0,0,0,0.15);
+    }
+
+    a.back-link {
+      display: inline-block;
+      margin-top: 1rem;
+      text-decoration: none;
+      color: #ff7b54;
+      font-weight: 600;
+    }
+
+    a.back-link:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+
+<body>
+  {% with messages = get_flashed_messages() %}
+    {% if messages %}
+      <div class="flash-messages">
+        {% for message in messages %}
+          <p>{{ message }}</p>
+        {% endfor %}
+      </div>
+    {% endif %}
+  {% endwith %}
+
+  <div class="pet-detail">
+    <img src="{{ url_for('static', filename='images/' + pet.image) }}" alt="{{ pet.name }}">
+    <h2>{{ pet.name }}</h2>
+    <p><strong>Type:</strong> {{ pet.type }}</p>
+    <p><strong>Age:</strong> {{ pet.age }}</p>
+    <p><strong>Description:</strong> {{ pet.description }}</p>
+
+    <!-- ✅ FIXED: Proper form action -->
+    <form method="POST" action="{{ url_for('pet_detail', pet_id=pet.id) }}">
+      <h3>Adoption Request Form 🐾</h3>
+      <input type="text" name="fullname" placeholder="Your Full Name" required>
+      <input type="email" name="email" placeholder="Your Email" required>
+      <textarea name="message" rows="4" placeholder="Tell us why you want to adopt {{ pet.name }}" required></textarea>
+      <button type="submit">Submit Application</button>
+    </form>
+
+    <a href="{{ url_for('pets_page') }}" class="back-link">← Back to All Pets</a>
+  </div>
+</body>
+</html>
