@@ -7,7 +7,7 @@ import os
 app = Flask(__name__)
 app.secret_key = "your_secret_key_here"
 
-# ---------------------------
+
 # MySQL CONFIGURATION
 # ---------------------------
 app.config['MYSQL_HOST'] = 'localhost'
@@ -16,7 +16,7 @@ app.config['MYSQL_PASSWORD'] = ''  # leave blank unless you set one
 app.config['MYSQL_DB'] = 'petadopt'
 mysql = MySQL(app)
 
-# ---------------------------
+# -----------------------
 # IMAGE CONFIG
 # ---------------------------
 app.config['UPLOAD_FOLDER'] = 'static/images'
@@ -154,4 +154,5 @@ def logout():
 # ✅ RUN APP
 if __name__ == '__main__':
     app.run(debug=True)
+
 
