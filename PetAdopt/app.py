@@ -1,4 +1,3 @@
-
 from flask import Flask, render_template, request, redirect, url_for, session, flash
 from flask_mysqldb import MySQL
 import MySQLdb.cursors
@@ -7,24 +6,24 @@ import os
 app = Flask(__name__)
 app.secret_key = "your_secret_key_here"
 
-
-
-
+# ---------------------------
+# MySQL CONFIGURATION
+# ---------------------------
 app.config['MYSQL_HOST'] = 'localhost'
 app.config['MYSQL_USER'] = 'root'  # default user in XAMPP
 app.config['MYSQL_PASSWORD'] = ''  # leave blank unless you set one
 app.config['MYSQL_DB'] = 'petadopt'
 mysql = MySQL(app)
 
-
-
-
+# ---------------------------
+# IMAGE CONFIG
+# ---------------------------
 app.config['UPLOAD_FOLDER'] = 'static/images'
 os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
 
-
-
-
+# ---------------------------
+# ROUTES
+# ---------------------------
 
 @app.route('/')
 def home():
@@ -99,7 +98,7 @@ def pets_page():
     cursor.execute(sql, params)
     pets = cursor.fetchall()
 
-    return render_template('pets.html', pets=pets)
+    return render_template('pets.html', pets=pets, search_query=search_query, pet_type_filter=pet_type)
 
 # ✅ PET DETAILS / ADOPTION
 @app.route('/pet/<int:pet_id>', methods=['GET', 'POST'])
@@ -132,17 +131,57 @@ def pet_detail(pet_id):
     return render_template('pet_detail.html', pet=pet)
 
 # ✅ PROFILE PAGE
-@app.route('/profile')
+@app.route('/profile', methods=['GET', 'POST'])
 def profile():
     if 'user' not in session:
         flash('Please log in first.')
         return redirect(url_for('login'))
 
     cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
-    cursor.execute('SELECT * FROM users WHERE id = %s', [session['user_id']])
+    user_id = session['user_id']
+
+    # Handle profile update (email, phone, address)
+    if request.method == 'POST':
+        new_email = request.form.get('email')
+        new_phone = request.form.get('phone')
+        new_address = request.form.get('address')
+
+        cursor.execute('''
+            UPDATE users SET email=%s, phone=%s, address=%s WHERE id=%s
+        ''', (new_email, new_phone, new_address, user_id))
+        mysql.connection.commit()
+        flash('Profile updated successfully!')
+        return redirect(url_for('profile'))
+
+    # Fetch user info
+    cursor.execute('SELECT * FROM users WHERE id = %s', [user_id])
     user = cursor.fetchone()
 
-    return render_template('profile.html', user=user)
+    # Fetch favorite pets
+    cursor.execute('''
+        SELECT pets.* FROM pets
+        JOIN favorites ON pets.id = favorites.pet_id
+        WHERE favorites.user_id = %s
+    ''', [user_id])
+    favorite_pets = cursor.fetchall()
+
+    # Fetch adopted pets
+    cursor.execute('''
+        SELECT pets.* FROM pets
+        JOIN adoptions ON pets.id = adoptions.pet_id
+        WHERE adoptions.user_id = %s
+    ''', [user_id])
+    adopted_pets = cursor.fetchall()
+
+    return render_template('profile.html', 
+                           username=user['username'],
+                           full_name=user.get('full_name', ''),
+                           email=user.get('email', ''),
+                           phone=user.get('phone', ''),
+                           address=user.get('address', ''),
+                           date_joined=user.get('date_joined', ''),
+                           favorite_pets=favorite_pets,
+                           adopted_pets=adopted_pets)
 
 # ✅ LOGOUT
 @app.route('/logout')
@@ -154,13 +193,3 @@ def logout():
 # ✅ RUN APP
 if __name__ == '__main__':
     app.run(debug=True)
-
-
-
-
-
-
-
-
-
-
